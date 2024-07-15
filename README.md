@@ -61,7 +61,7 @@ sudo chown -R www-data:www-data /opt/CTFd
 sudo chmod -R 755 /opt/CTFd
 ```
 
-## 3. Set Up Python Virtual Environment
+## 7. Set Up Python Virtual Environment
 Create and activate a Python virtual environment.
 
 ```bash
@@ -77,7 +77,7 @@ sudo systemctl start ctfd
 sudo systemctl enable ctfd
 ```
 
-## 7. Create a Self-Signed SSL Certificate
+## 8. Create a Self-Signed SSL Certificate
 
 Generate a self-signed SSL certificate inside the CTFd directory.
 ```bash
@@ -89,7 +89,7 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ctfd-selfsigned
 sudo openssl dhparam -out dhparam.pem 2048
 ```
 
-## 8. Configure Nginx
+## 9. Configure Nginx
 Create an Nginx configuration file for CTFd.
 
 ```sh
@@ -135,7 +135,7 @@ Enable the new configuration
 sudo ln -s /etc/nginx/sites-available/ctfd /etc/nginx/sites-enabled
 ```
 
-## 9. Verify Nginx Configuration
+## 10. Verify Nginx Configuration
 Test the Nginx configuration to ensure there are no syntax errors:
 
 ```bash 
@@ -147,7 +147,7 @@ If the test is successful, reload Nginx:
 sudo systemctl reload nginx
 ```
 
-## 10. Access CTFd
+## 11. Access CTFd
 Now you can access CTFd via https://{ip address} in your web browser. You should be prompted with a warning about the self-signed certificate. Accept the warning to proceed to the site.
 
 ## License
