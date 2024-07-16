@@ -61,13 +61,7 @@ sudo chown -R www-data:www-data /opt/CTFd
 sudo chmod -R 755 /opt/CTFd
 ```
 
-## 7. Set Up Python Virtual Environment
-Create and activate a Python virtual environment.
-
-```bash
-python3 -m venv env
-source env/bin/activate
-```
+## 7. Reload Daemon
 Reload systemd and start the Gunicorn service.
 
 
