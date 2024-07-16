@@ -19,7 +19,7 @@ cd CTFd
 Create and activate a Python virtual environment.
 
 ```bash
-python3 -m venv env
+sudo python3 -m venv env
 source env/bin/activate
 ```
 
@@ -27,7 +27,7 @@ source env/bin/activate
 Install the required Python packages.
 
 ```bash
-pip install -r requirements.txt
+sudo pip install -r requirements.txt
 ```
 
 ## 5. Configure Gunicorn
