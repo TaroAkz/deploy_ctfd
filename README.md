@@ -10,8 +10,7 @@ sudo apt install -y python3 python3-venv python3-pip nginx git
 ## 2. Clone CTFd Repository
 Clone the CTFd repository from GitHub.
 ```bash
-cd /opt
-sudo git clone https://github.com/CTFd/CTFd.git
+git clone https://github.com/CTFd/CTFd.git
 cd CTFd
 ```
 
@@ -19,7 +18,7 @@ cd CTFd
 Create and activate a Python virtual environment.
 
 ```bash
-sudo python3 -m venv env
+python3 -m venv env
 source env/bin/activate
 ```
 
@@ -27,7 +26,7 @@ source env/bin/activate
 Install the required Python packages.
 
 ```bash
-sudo pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## 5. Configure Gunicorn
@@ -44,9 +43,9 @@ After=network.target
 [Service]
 User=www-data
 Group=www-data
-WorkingDirectory=/opt/CTFd
-Environment="PATH=/opt/CTFd/env/bin"
-ExecStart=/opt/CTFd/env/bin/gunicorn --workers 3 --bind unix:/opt/CTFd/ctfd.sock "CTFd:create_app()"
+WorkingDirectory=/CTFd
+Environment="PATH=/CTFd/env/bin"
+ExecStart=/opt/CTFd/env/bin/gunicorn --workers 3 --bind unix:/CTFd/ctfd.sock "CTFd:create_app()"
 
 [Install]
 WantedBy=multi-user.target
@@ -57,8 +56,8 @@ WantedBy=multi-user.target
 ## 6. Set Permissions for the CTFd Directory
 Ensure the permissions for the CTFd directory and the Gunicorn socket file are correct.
 ```bash
-sudo chown -R www-data:www-data /opt/CTFd
-sudo chmod -R 755 /opt/CTFd
+sudo chown -R www-data:www-data /CTFd
+sudo chmod -R 755 /CTFd
 ```
 
 ## 7. Reload Daemon
@@ -75,8 +74,8 @@ sudo systemctl enable ctfd
 
 Generate a self-signed SSL certificate inside the CTFd directory.
 ```bash
-cd /opt/CTFd
-sudo mkdir ssl
+cd /CTFd
+mkdir ssl
 cd ssl
 
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ctfd-selfsigned.key -out ctfd-selfsigned.crt
@@ -102,9 +101,9 @@ server {
     listen 443 ssl;
     server_name {ip address};
 
-    ssl_certificate /opt/CTFd/ssl/ctfd-selfsigned.crt;
-    ssl_certificate_key /opt/CTFd/ssl/ctfd-selfsigned.key;
-    ssl_dhparam /opt/CTFd/ssl/dhparam.pem;
+    ssl_certificate /CTFd/ssl/ctfd-selfsigned.crt;
+    ssl_certificate_key /CTFd/ssl/ctfd-selfsigned.key;
+    ssl_dhparam /CTFd/ssl/dhparam.pem;
 
     ssl_protocols TLSv1.2;
     ssl_prefer_server_ciphers on;
@@ -114,7 +113,7 @@ server {
     ssl_session_tickets off;
 
     location / {
-        proxy_pass http://unix:/opt/CTFd/ctfd.sock;
+        proxy_pass http://unix:/CTFd/ctfd.sock;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
